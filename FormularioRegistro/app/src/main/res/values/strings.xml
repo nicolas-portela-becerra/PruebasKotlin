@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">FormularioRegistroNPB</string>
+    <string name="campo_nombre">* Nombre</string>
+    <string name="titulo">Formulario de Registro</string>
+    <string name="campo_contrasenha">* Contraseña</string>
+    <string name="campo_telefono">Telefono</string>
+    <string name="campo_Pais">Pais</string>
+    <string name="campo_apellidos">* Apellidos</string>
+    <string name="campo_repetirContrasenha">* Reptir Contraseña</string>
+    <string name="campo_fechaNacimiento">Fecha de Nacimiento</string>
+    <string name="campo_email">* Correo Electronico</string>
+    <string name="campo_sexo">* Sexo</string>
+    <string name="sexo_hombre">Hombre</string>
+    <string name="sexo_mujer">Mujer</string>
+    <string name="boletin_noticias">Recibir boletin de noticias</string>
+    <string name="boton_registro">REGISTRARSE</string>
+    <string name="boton_salir">SALIR</string>
+</resources>
