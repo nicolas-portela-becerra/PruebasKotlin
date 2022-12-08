@@ -2,6 +2,7 @@ package com.liceolapaz.dam.pruebalector
 
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.zxing.client.android.Intents
@@ -36,6 +37,31 @@ class MainActivity : AppCompatActivity() {
                 viewBinding.fldEscaneo.text = result.contents
             }
         }
+        //jdbc.funcion()
+        val conexion = BD.getConexion()
+        if(conexion != null){
+            Log.i(":::", "Conectado a la base de datos")
+            val ps = conexion.prepareStatement("SELECT * FROM alumno")
+            if(ps != null) {
+                Log.i(":::", "Ejecutar preparedStatement")
+                val resultados = ps.executeQuery()
+                if(resultados == null){
+                    Log.i(":::", "Resultados está vacío")
+                }
+                else{
+                    while(resultados.next()) {
+                        Log.i(":::", "Resultados: " + resultados.getInt(1))
+                        Log.i(":::", "Resultados: " + resultados.getString(2))
+                    }
+                }
+            }
+        }
+        else {
+            Log.i(":::", "Error en la conexión")
+        }
+
+
+
 
 
         viewBinding.btnEscaner.setOnClickListener() {

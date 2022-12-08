@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.liceolapaz.dam.pruebalector">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
     <!--Configuración para el escaner, junto con el hardawareAccelerated-->
     <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
 
