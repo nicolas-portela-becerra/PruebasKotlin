@@ -1,5 +1,5 @@
 package com.liceolapaz.dam.tresenrayanpb
 
 interface OnCasillaSeleccionadaListener {
-    fun onCasillaSeleccionada(fila: Int, columna: Int)
+    fun onCasillaSeleccionada(ganador: Int, lleno: Int, fichaActiva: Int)
 }

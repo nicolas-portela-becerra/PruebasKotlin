@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Jugador 1 (CRUZ)"/>
+        android:text="Turno de la X"/>
 
     <com.liceolapaz.dam.tresenrayanpb.TresEnRaya
         android:id="@+id/tablero"
@@ -21,16 +21,18 @@
         android:layout_height="match_parent"
         android:layout_margin="10dp"
         app:ocolor="#0000FF"
-        app:xcolor="#FF0000" />
+        app:xcolor="#FF0000"/>
 
     <Button android:id="@+id/btnRestart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nueva partida" />
+        android:text="Nueva partida"
+        android:enabled="false"/>
 
     <TextView android:id="@+id/lblCasilla"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        android:text=""/>
 
 </LinearLayout>

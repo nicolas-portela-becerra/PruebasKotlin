@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "875741661343",
+    "project_id": "fir-6659d",
+    "storage_bucket": "fir-6659d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:875741661343:android:63564cf706a185c475baaa",
+        "android_client_info": {
+          "package_name": "com.liceolapaz.dam.firebasedemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "875741661343-ji7mp1nd3v30a40einbeu9q6d31tn5i8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOQKZpA__PnyXg4_lfXnfwztj8TQ4JFlQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "875741661343-ji7mp1nd3v30a40einbeu9q6d31tn5i8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

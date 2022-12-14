@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:columnCount="3">
+    android:columnCount="3"
+    android:padding="5dp">
 
     <TextView
         android:layout_height="wrap_content"
@@ -38,4 +39,8 @@
         android:text="Escanear"
         android:padding="10dp"
         />
+
+    <TextView android:id="@+id/txtInternet" android:text="Hola" android:layout_columnSpan="3"/>
+    <TextView android:id="@+id/txtBd" android:text="Hola"/>
+    <TextView android:id="@+id/resultados" android:text="Hola" android:layout_columnSpan="3"/>
 </GridLayout>

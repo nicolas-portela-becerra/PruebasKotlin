@@ -7,6 +7,8 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.widget.Button
+import android.widget.TextView
 
 class TresEnRaya : View {
     companion object{
@@ -14,6 +16,10 @@ class TresEnRaya : View {
         const val FICHA_O = 1
         const val FICHA_X = 2
     }
+
+    private lateinit var lblTurnoJugador : TextView
+    private lateinit var lblCasilla : TextView
+    private lateinit var btnRestart : Button
 
     private val tablero = Array(3){Array(3){0}}
     private var fichaActiva = FICHA_X
@@ -34,7 +40,6 @@ class TresEnRaya : View {
     }
 
     private lateinit var listener : OnCasillaSeleccionadaListener
-    private lateinit var winnerListner: OnWinnerListner
     constructor(ctx: Context) : super(ctx)
 
     constructor(ctx: Context, attrs: AttributeSet) : super(ctx, attrs) {
@@ -190,52 +195,87 @@ class TresEnRaya : View {
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         val fil = (event!!.y / (measuredHeight / 3)).toInt()
         val col = (event.x / (measuredWidth / 3)).toInt()
-
-        //Actualizamos el tablero
-        setCasilla(fil, col, fichaActiva)
-
-        //Lanzamos el evento de pulsación
-        listener.onCasillaSeleccionada(fil, col)
-
-
-        //Refrescamos el control
-        this.invalidate()
-
-        //Control de estados del tablero
-        if(checkGanador() == FICHA_O) {
-            println("Ganan las O")
+        if(getCasilla(fil, col) !=  0) {
+            for(i in 0..2) {
+                for(j in 0..2) {
+                    println("Posicion " + i + ", " + j + ": " + tablero[i][j])
+                }
+            }
+            return false
         }
-        else if(checkGanador() == FICHA_X) {
-            println("Ganan las X")
-        }
-        if(tableroLleno()) {
-            println("Empate")
-        }
+        else {
+            //Actualizamos el tablero
+            setCasilla(fil, col, fichaActiva)
 
-        //Alternar ficha automaticamente
-        alternarFichaActiva()
+            //Lanzamos el evento de pulsación
+            // listener.onCasillaSeleccionada(checkGanador(), tableroLleno(), fichaActiva)
 
+            //Alternar ficha automaticamente
+            alternarFichaActiva()
+
+            //Alternar texto de jugador activa
+            if(fichaActiva == FICHA_X) {
+                lblTurnoJugador.text = "Turno de la X"
+            }
+            else if(fichaActiva == FICHA_O) {
+                lblTurnoJugador.text = "Turno del O"
+            }
+
+            //Refrescamos el control
+            this.invalidate()
+
+            if(tableroLleno() == 0) {
+                lblCasilla.text = "Empate"
+                lblTurnoJugador.text = ""
+                btnRestart.isEnabled = true
+                fichaActiva == FICHA_X
+            }
+            //Control de estados del tablero
+            if(checkGanador() == FICHA_O) {
+                btnRestart.isEnabled = true
+                lblTurnoJugador.text = ""
+                lblCasilla.text = "Ganan las O"
+                setOnTouchListener { view, motionEvent -> true }
+            }
+            if(checkGanador() == FICHA_X) {
+                btnRestart.isEnabled = true
+                lblTurnoJugador.text = ""
+                lblCasilla.text = "Ganan las X"
+                setOnTouchListener { view, motionEvent -> true }
+            }
+        }
         return super.onTouchEvent(event)
     }
 
-    fun tableroLleno(): Boolean {
+    fun controlarBotonRestart(btnRestar : Button) {
+        this.btnRestart = btnRestar
+    }
+    fun setEstadoTablero(lblCasilla : TextView) {
+        this.lblCasilla = lblCasilla
+    }
+    fun setMensajeJugador(lblTurnoJugador: TextView){
+      this.lblTurnoJugador = lblTurnoJugador
+    }
+
+    fun tableroLleno(): Int {
         var lleno = 0
         for(i in 0..2) {
             for(j in 0..2) {
                 if(tablero[i][j] != 0) {
                     lleno++
                     if(lleno == 9) {
-                        return true
+                        return 0
                     }
                 }
             }
         }
-        return false
+        return -1
     }
 
     fun checkGanador(): Int {
         var contadorFilasX = 0
         for(i in 0..2){
+            contadorFilasX = 0
             for(j in 0..2){
                 if(tablero[i][j] == 2){
                     contadorFilasX++
@@ -250,6 +290,7 @@ class TresEnRaya : View {
         }
         var contadorColumnasX = 0
         for(i in 0..2){
+            contadorColumnasX = 0
             for(j in 0..2){
                 if(tablero[j][i] == FICHA_X){
                     contadorColumnasX++
@@ -271,6 +312,7 @@ class TresEnRaya : View {
 
         var contadorFilasO = 0
         for(i in 0..2){
+            contadorFilasO = 0
             for(j in 0..2){
                 if(tablero[i][j] == FICHA_O){
                     contadorFilasO++
@@ -285,6 +327,7 @@ class TresEnRaya : View {
         }
         var contadorColumnasO = 0
         for(i in 0..2){
+            contadorColumnasO = 0
             for(j in 0..2){
                 if(tablero[j][i] == FICHA_O){
                     contadorColumnasO++
@@ -303,20 +346,13 @@ class TresEnRaya : View {
         if(tablero[0][2] and tablero[1][1] and tablero[2][0] == FICHA_O) {
             return FICHA_O
         }
-        return 0
+        return -1
     }
 
-    fun setOnCasillaSeleccionadaListener(seleccion: (Int, Int) -> Unit) {
+    fun setOnCasillaSeleccionadaListener(seleccion: (Int, Int, Int) -> Unit) {
         listener = object:OnCasillaSeleccionadaListener {
-            override fun onCasillaSeleccionada(fila: Int, columna: Int) {
-                seleccion(fila, columna)
-            }
-        }
-    }
-    fun setOnWinnerListener(seleccion: (Int) -> Unit) {
-        winnerListner = object:OnWinnerListner {
-            override fun onWinnerListener(codigo: Int) {
-                seleccion(codigo)
+            override fun onCasillaSeleccionada(ganador: Int, lleno: Int, fichaActiva: Int) {
+                seleccion(ganador, lleno, fichaActiva)
             }
         }
     }

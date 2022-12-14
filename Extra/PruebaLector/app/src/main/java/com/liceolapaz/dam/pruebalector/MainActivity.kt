@@ -1,15 +1,23 @@
 package com.liceolapaz.dam.pruebalector
 
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.zxing.client.android.Intents
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
 import com.liceolapaz.dam.pruebalector.databinding.ActivityMainBinding
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 
 class MainActivity : AppCompatActivity() {
@@ -19,6 +27,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
+            // Si no tiene el permiso, solicita al usuario que lo otorgue
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.INTERNET), 1)
+        }
+
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (connectivityManager.isDefaultNetworkActive) {
+            // La aplicación tiene acceso a Internet
+
+            viewBinding.txtInternet.setText("Hay internet")
+        } else {
+            // La aplicación no tiene acceso a Internet
+            viewBinding.txtInternet.setText("No hay internet")
+        }
 
         //Abrir el escaner
         val inicarEscaner = registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
@@ -37,34 +59,24 @@ class MainActivity : AppCompatActivity() {
                 viewBinding.fldEscaneo.text = result.contents
             }
         }
-        //jdbc.funcion()
-        val conexion = BD.getConexion()
-        if(conexion != null){
-            Log.i(":::", "Conectado a la base de datos")
-            val ps = conexion.prepareStatement("SELECT * FROM alumno")
-            if(ps != null) {
-                Log.i(":::", "Ejecutar preparedStatement")
-                val resultados = ps.executeQuery()
-                if(resultados == null){
-                    Log.i(":::", "Resultados está vacío")
-                }
-                else{
-                    while(resultados.next()) {
-                        Log.i(":::", "Resultados: " + resultados.getInt(1))
-                        Log.i(":::", "Resultados: " + resultados.getString(2))
-                    }
-                }
+
+        //val conexion = BD.getConexionMYSQL()
+        //val conexion = BD.getConexionPOSTGRE()
+        var pool = Executors.newSingleThreadExecutor()
+        var hilo = BD()
+        val conexion = pool.submit(hilo).get()
+        if(!(conexion.isEmpty())){
+            var string = ""
+            for(s in conexion) {
+                string += s
             }
+            viewBinding.resultados.text = string
         }
         else {
-            Log.i(":::", "Error en la conexión")
+            viewBinding.resultados.setText("Resulatados vacio")
         }
 
-
-
-
-
-        viewBinding.btnEscaner.setOnClickListener() {
+        viewBinding.btnEscaner.setOnClickListener {
             val opciones = ScanOptions()
             opciones.setPrompt("Coloca el codigo dentro del recuadro")
             inicarEscaner.launch(opciones)

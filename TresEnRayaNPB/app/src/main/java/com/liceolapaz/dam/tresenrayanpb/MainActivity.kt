@@ -16,38 +16,19 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         lblCasilla = findViewById(R.id.lblCasilla)
-
+        lblTurnoJugador = findViewById(R.id.turnoJugador)
         terTablero = findViewById(R.id.tablero)
-        terTablero.setOnCasillaSeleccionadaListener { fila, columna ->
-            lblCasilla.text = "Última casilla seleccionada: ($fila, $columna, ${terTablero.getCasilla(fila, columna)})"
-        }
-
-        /*terTablero.setOnWinnerListener {codigo ->
-            if(codigo == 0) {
-            lblCasilla.text = "Empate"
-            }
-            else if(codigo == 1) {
-                lblCasilla.text = "Gana la X"
-            }
-            else if(codigo == 2) {
-                lblCasilla.text = "Gana el O"
-            }
-        }*/
-
-
-        /*lblTurnoJugador = findViewById(R.id.turnoJugador)
-        println(terTablero.getFichaActiva())
-        if(terTablero.getFichaActiva() == 2) {
-            lblTurnoJugador.setText("Jugador 1 (CRUZ)")
-        }
-        else if(terTablero.getFichaActiva() == 1) {
-            lblTurnoJugador.setText("Jugador 2 (CIRCULO)")
-        }*/
-
-
         btnRestart = findViewById(R.id.btnRestart)
+
+        terTablero.setMensajeJugador(lblTurnoJugador)
+        terTablero.setEstadoTablero(lblCasilla)
+        terTablero.controlarBotonRestart(btnRestart)
+
         btnRestart.setOnClickListener {
             terTablero.limpiarCasillas()
+            btnRestart.isEnabled = false
+            lblCasilla.text = ""
+            lblTurnoJugador.text = "Turno de la X"
         }
     }
 }
