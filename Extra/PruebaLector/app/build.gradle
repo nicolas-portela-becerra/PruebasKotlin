@@ -41,18 +41,10 @@ android {
 dependencies {
     //Librerias escaner
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
-    //implementation files('..\\lib\\mysql-connector-j-8.0.31.jar')
-    implementation files('..\\lib\\mysql-connector-java-5.1.49.jar')
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
-    //implementation("mysql:mysql-connector-java:8.0.31")
-
-    // https://mvnrepository.com/artifact/com.zaxxer/HikariCP
-    implementation("com.zaxxer:HikariCP:5.0.0")
-
-
-
+    implementation("mysql:mysql-connector-java:5.1.49")
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
