@@ -16,6 +16,7 @@
         android:id="@+id/fldCosa"
         android:hint="Introduce algo"
         android:layout_columnSpan="2"
+        android:inputType="number"
         />
 
     <TextView
