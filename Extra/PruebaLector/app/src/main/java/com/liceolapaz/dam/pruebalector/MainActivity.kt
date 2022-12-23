@@ -2,13 +2,19 @@ package com.liceolapaz.dam.pruebalector
 
 
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.commit
 import com.google.zxing.client.android.Intents
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
 import com.liceolapaz.dam.pruebalector.databinding.ActivityMainBinding
+import androidx.fragment.app.add
+import java.util.Objects
 import java.util.concurrent.FutureTask
 
 
@@ -19,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
+
 
         //Abrir el escaner
         val inicarEscaner = registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
@@ -38,23 +45,24 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        viewBinding.spTablas.onItemSelectedListener = object : OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
 
-        viewBinding.boton.setOnClickListener {
-            val bd = BD()
-            val futuro = FutureTask(bd)
-            var hiloBd = Thread(futuro)
-            hiloBd.start()
-            val datos = futuro.get()
-            if(datos.isNotEmpty()){
-                var string = ""
-                for(s in datos) {
-                    string += s
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                supportFragmentManager.commit {
+                    setReorderingAllowed(true)
+                    if(viewBinding.spTablas.selectedItem.toString().equals("departamento", true)) {
+                        add<FragmentDepartamento>(R.id.fragmentContainer)
+                    }
+                    if(viewBinding.spTablas.selectedItem.toString().equals("empleado", true)) {
+                        add<FragmentEmpleado>(R.id.fragmentContainer)
+                    }
+
                 }
-                viewBinding.resultados.text = string
             }
-            else {
-                viewBinding.resultados.setText("Resultados vacio")
-            }
+
         }
 
         viewBinding.btnEscaner.setOnClickListener {
@@ -62,5 +70,38 @@ class MainActivity : AppCompatActivity() {
             opciones.setPrompt("Coloca el codigo dentro del recuadro")
             inicarEscaner.launch(opciones)
         }
+
+        viewBinding.btnResultados.setOnClickListener {
+            val datos = FutureTask(LeerBd(viewBinding.fldTablas.text.toString(), this@MainActivity)).get()
+            if(viewBinding.fldTablas.text.toString().equals("departamento", true)) {
+                mostrarDepartamentos(datos)
+            }
+            if(viewBinding.fldTablas.text.toString().equals("empleado", true)) {
+                mostrarEmpleados(datos)
+            }
+        }
+    }
+
+    private fun mostrarEmpleados(datos: ArrayList<Object>?) {
+        var string  = ""
+        if (datos != null) {
+            for(o : Object in datos) {
+                o as Empleado
+                string += o.toString() + "\n"
+            }
+            viewBinding.txtTabla.setText(string)
+        }
+    }
+
+    private fun mostrarDepartamentos(datos: ArrayList<Object>?) {
+        var string  = ""
+        if (datos != null) {
+            for(o : Object in datos) {
+                o as Departamtento
+                string += o.toString() + "\n"
+            }
+            viewBinding.txtTabla.setText(string)
+        }
     }
 }
+
