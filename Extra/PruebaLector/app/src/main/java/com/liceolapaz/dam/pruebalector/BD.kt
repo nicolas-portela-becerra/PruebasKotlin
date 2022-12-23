@@ -15,7 +15,7 @@ class BD : Callable<Connection> {
             e.printStackTrace()
         }
 
-        return DriverManager.getConnection("jdbc:mysql://192.168.1.176/dam22", "nico", "1234")
+        return DriverManager.getConnection("jdbc:mysql://192.168.1.176/practicaev1", "nico", "1234")
 
     }
 }

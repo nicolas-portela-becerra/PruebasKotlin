@@ -23,9 +23,11 @@ class LeerBd(palabra: String, ctx : Context) : Callable<ArrayList<Object>> {
                 }
             }
             if(palabra.equals("departamento", true)) {
-
+                while(resultados.next()){
+                    var departamtento = Departamtento(resultados.getInt(1), resultados.getString(2), resultados.getString(3))
+                    datos.add(departamtento as Object)
+                }
             }
-
         }
         else {
             Toast.makeText(ctx, "Error en la conexión", Toast.LENGTH_SHORT).show()
