@@ -5,12 +5,12 @@ import android.widget.Toast
 import java.util.concurrent.Callable
 import java.util.concurrent.FutureTask
 
-class LeerBd(palabra: String, ctx : Context) : Callable<ArrayList<Object>> {
+class LeerBd(palabra: String, ctx : Context) {
     val palabra = palabra
     val ctx = ctx
 
-    override fun call(): ArrayList<Object> {
-        val conexion = FutureTask(BD()).get()
+    fun call(): ArrayList<Object> {
+        val conexion = BD().call()
         var datos = arrayListOf<Object>()
         if((conexion) != null) {
             val ps = conexion.prepareStatement("SELECT * FROM " + palabra)

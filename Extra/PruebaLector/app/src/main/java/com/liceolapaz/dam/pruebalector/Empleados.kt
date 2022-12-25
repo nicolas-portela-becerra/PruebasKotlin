@@ -4,11 +4,11 @@ import java.sql.Connection
 import java.util.concurrent.Callable
 import java.util.concurrent.FutureTask
 
-class Empleados(empleado : Empleado) : Callable<Int> {
+class Empleados(empleado : Empleado) {
     val conexion = FutureTask(BD()).get()
     val empleado = empleado
 
-    override fun call(): Int {
+    fun call(): Int {
         val ps = conexion.prepareStatement("INSERT INTO Empleado VALUES (?, ?, ?, ?, ?, ?)")
 
         ps.setInt(1, empleado.cod)
