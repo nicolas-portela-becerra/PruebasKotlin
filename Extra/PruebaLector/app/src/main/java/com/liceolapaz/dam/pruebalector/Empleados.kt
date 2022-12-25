@@ -5,7 +5,7 @@ import java.util.concurrent.Callable
 import java.util.concurrent.FutureTask
 
 class Empleados(empleado : Empleado) {
-    val conexion = FutureTask(BD()).get()
+    val conexion = BD().call()
     val empleado = empleado
 
     fun call(): Int {

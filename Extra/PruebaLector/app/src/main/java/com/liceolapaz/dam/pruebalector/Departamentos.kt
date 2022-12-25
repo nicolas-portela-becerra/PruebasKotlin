@@ -5,7 +5,7 @@ import java.util.concurrent.Callable
 import java.util.concurrent.FutureTask
 
 class Departamentos(depart : Departamtento) {
-    val conexion = FutureTask(BD()).get()
+    val conexion = BD().call()
     val depart = depart
     fun call(): Int {
         val ps = conexion.prepareStatement("Insert INTO Departamento VALUES (?, ?, ?)")
