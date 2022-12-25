@@ -81,7 +81,8 @@ class ActivityInsertarDatos : AppCompatActivity() {
             MotionEvent.ACTION_UP -> {
                 x2 = touchEvent.x
                 y2 = touchEvent.y
-                if (x1 + 200 > x2) {
+                Log.i(":::", "Valor $x1 y Valor $x2")
+                if (x1 > x2 + 200) {
                     startActivity(Intent(this@ActivityInsertarDatos, ActivityRecuperarDatos::class.java))
                     this.finish()
                 }
