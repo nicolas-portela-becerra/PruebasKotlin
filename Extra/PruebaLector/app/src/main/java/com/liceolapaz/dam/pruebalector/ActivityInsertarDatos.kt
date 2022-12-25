@@ -1,37 +1,33 @@
 package com.liceolapaz.dam.pruebalector
 
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.get
-import androidx.core.view.isGone
-import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.google.zxing.client.android.Intents
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
-import com.liceolapaz.dam.pruebalector.databinding.ActivityMainBinding
+import com.liceolapaz.dam.pruebalector.databinding.ActivityInsertarDatosBinding
 import androidx.fragment.app.add
-import androidx.fragment.app.findFragment
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-
-class MainActivity : AppCompatActivity() {
-    private lateinit var viewBinding : ActivityMainBinding
-    private lateinit var fragment : Fragment
+class ActivityInsertarDatos : AppCompatActivity() {
+    private lateinit var viewBinding : ActivityInsertarDatosBinding
+    private var x1 : Float = 0F
+    private var y1 : Float = 0F
+    private var x2: Float = 0F
+    private var y2: Float = 0F
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewBinding = ActivityMainBinding.inflate(layoutInflater)
+        viewBinding = ActivityInsertarDatosBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
 
@@ -42,10 +38,10 @@ class MainActivity : AppCompatActivity() {
                 val originalIntent = result.originalIntent
                 if (originalIntent == null) {
                     //Mensaje al cerrar el escaner manualmente
-                    Toast.makeText(this@MainActivity, "Cancelado", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@ActivityInsertarDatos, "Cancelado", Toast.LENGTH_LONG).show()
                 } else if (originalIntent.hasExtra(Intents.Scan.MISSING_CAMERA_PERMISSION)) {
                     //Error si el usuario no concede los permisos de la camara
-                    Toast.makeText(this@MainActivity, "No hay permiso para acceder a la cámara", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@ActivityInsertarDatos, "No hay permiso para acceder a la cámara", Toast.LENGTH_LONG).show()
                 }
             } else {
                 //Toast.makeText(this@MainActivity, "Scanned: " + result.contents, Toast.LENGTH_LONG).show()
@@ -53,10 +49,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        viewBinding.spTablas.onItemSelectedListener = object : OnItemSelectedListener{
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
+        viewBinding.spTablas.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 supportFragmentManager.commit {
@@ -76,44 +70,25 @@ class MainActivity : AppCompatActivity() {
             opciones.setPrompt("Coloca el codigo dentro del recuadro")
             inicarEscaner.launch(opciones)
         }
+    }
 
-        viewBinding.btnResultados.setOnClickListener {
-            lifecycleScope.launch {
-                viewBinding.progressbar.visibility = View.VISIBLE
-                viewBinding.resultados.text = withContext(Dispatchers.IO) {
-                    val datos = LeerBd(viewBinding.fldTablas.text.toString(), this@MainActivity).call()
-                    if(viewBinding.fldTablas.text.toString().equals("departamento", true)) {
-                        mostrarDepartamentos(datos)
-                    }
-                    else {
-                        mostrarEmpleados(datos)
-                    }
+    override fun onTouchEvent(touchEvent: MotionEvent): Boolean {
+        when (touchEvent.action) {
+            MotionEvent.ACTION_DOWN -> {
+                x1 = touchEvent.x
+                y1 = touchEvent.y
+            }
+            MotionEvent.ACTION_UP -> {
+                x2 = touchEvent.x
+                y2 = touchEvent.y
+                if (x1 + 200 > x2) {
+                    startActivity(Intent(this@ActivityInsertarDatos, ActivityRecuperarDatos::class.java))
+                    this.finish()
                 }
-                viewBinding.progressbar.visibility = View.GONE
             }
         }
+        return false
     }
 
-    private fun mostrarEmpleados(datos: ArrayList<Object>?): String {
-        var string  = ""
-        if (datos != null) {
-            for(o : Object in datos) {
-                o as Empleado
-                string += o.toString() + "\n"
-            }
-        }
-        return string
-    }
-
-    private fun mostrarDepartamentos(datos: ArrayList<Object>?) : String {
-        var string  = ""
-        if (datos != null) {
-            for(o : Object in datos) {
-                o as Departamtento
-                string += o.toString() + "\n"
-            }
-        }
-        return string
-    }
 }
 

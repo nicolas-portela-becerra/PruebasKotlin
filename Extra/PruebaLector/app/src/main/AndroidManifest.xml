@@ -19,14 +19,18 @@
         tools:targetApi="31"
         android:hardwareAccelerated="true">
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".ActivityInsertarDatos"
+            android:exported="true"
+            android:label="Insertar datos">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ActivityRecuperarDatos"
+            android:exported="true"
+            android:label="Recuperar datos"/>
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="portrait"
