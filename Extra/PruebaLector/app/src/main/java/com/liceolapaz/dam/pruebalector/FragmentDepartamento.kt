@@ -6,7 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.liceolapaz.dam.pruebalector.databinding.FragmentDepartamentoBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.concurrent.FutureTask
 
 private const val ARG_PARAM1 = "param1"
@@ -21,9 +25,13 @@ class FragmentDepartamento : Fragment() {
         viewBinding = FragmentDepartamentoBinding.inflate(layoutInflater)
 
         viewBinding.btnEnviar.setOnClickListener {
-            val dep = Departamtento(viewBinding.fldCod.text.toString().toInt(), viewBinding.fldNom.text.toString(), viewBinding.fldPaisDep.text.toString())
-            val resultado = FutureTask(Departamentos(dep)).get()
-            Toast.makeText(context, "Departamento: " +resultado, Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Boton pulsado", Toast.LENGTH_SHORT).show()
+            lifecycleScope.launch(Dispatchers.IO) {
+                val depart = Departamtento(viewBinding.fldCod.toString().toInt(), viewBinding.fldNom.toString(), viewBinding.fldPaisDep.toString())
+                if(Departamentos(depart).call() == 1) {
+                    Toast.makeText(context, "Departamento insertado", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
         arguments?.let {}
