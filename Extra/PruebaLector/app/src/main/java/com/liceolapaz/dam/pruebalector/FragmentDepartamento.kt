@@ -19,20 +19,9 @@ private const val ARG_PARAM2 = "param2"
 class FragmentDepartamento : Fragment() {
     private lateinit var viewBinding : FragmentDepartamentoBinding
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = FragmentDepartamentoBinding.inflate(layoutInflater)
-
-        viewBinding.btnEnviar.setOnClickListener {
-            Toast.makeText(context, "Boton pulsado", Toast.LENGTH_SHORT).show()
-            lifecycleScope.launch(Dispatchers.IO) {
-                val depart = Departamtento(viewBinding.fldCod.toString().toInt(), viewBinding.fldNom.toString(), viewBinding.fldPaisDep.toString())
-                if(Departamentos(depart).call() == 1) {
-                    Toast.makeText(context, "Departamento insertado", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
 
         arguments?.let {}
     }
@@ -40,6 +29,27 @@ class FragmentDepartamento : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_departamento, container, false)
     }
+
+    //ACTIVITY LISTENER
+    //Setear el click listener del boton del fragment cuando se pulsa desde la activity
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val id = resources.getIdentifier("btnEnviar", "id", context?.packageName)
+        val e = view.findViewById<View>(id)
+        e.setOnClickListener {
+            lifecycleScope.launch(Dispatchers.IO) {
+                val depart = Departamtento(viewBinding.fldCod.toString().toInt(), viewBinding.fldNom.toString(), viewBinding.fldPaisDep.toString())
+                if(Departamentos(depart).call() == 1) {
+                    Toast.makeText(context, "Departamento insertado", Toast.LENGTH_SHORT).show()
+                }
+                else {
+                    Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+    //ACTIVITY LISTENER
 
     companion object {
 

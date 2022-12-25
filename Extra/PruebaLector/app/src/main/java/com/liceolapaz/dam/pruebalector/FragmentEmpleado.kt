@@ -23,15 +23,7 @@ class FragmentEmpleado : Fragment() {
         viewBinding = FragmentEmpleadoBinding.inflate(layoutInflater)
 
         viewBinding.btnEnviar.setOnClickListener {
-            viewBinding.btnEnviar.setOnClickListener {
-                lifecycleScope.launch(Dispatchers.IO) {
-                    val emp = Empleado(viewBinding.fldCod.text.toString().toInt(), viewBinding.fldNom.text.toString(), viewBinding.fldApellidos.text.toString(),
-                        viewBinding.fldPuesto.text.toString(), viewBinding.fldSalario.text.toString().toInt(), viewBinding.fldCodDep.text.toString().toInt())
-                    if(Empleados(emp).call() == 1) {
-                        Toast.makeText(context, "Empleado insertado", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
+
         }
 
         arguments?.let {}
@@ -40,6 +32,25 @@ class FragmentEmpleado : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_empleado, container, false)
     }
+
+    //ACTIVITY LISTENER
+    //Setear el click listener del boton del fragment cuando se pulsa desde la activity
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val id = resources.getIdentifier("btnEnviar", "id", context?.packageName)
+        val e = view.findViewById<View>(id)
+        e.setOnClickListener {
+            lifecycleScope.launch(Dispatchers.IO) {
+                val emp = Empleado(viewBinding.fldCod.text.toString().toInt(), viewBinding.fldNom.text.toString(), viewBinding.fldApellidos.text.toString(),
+                    viewBinding.fldPuesto.text.toString(), viewBinding.fldSalario.text.toString().toInt(), viewBinding.fldCodDep.text.toString().toInt())
+                if(Empleados(emp).call() == 1) {
+                    Toast.makeText(context, "Empleado insertado", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+    //ACTIVITY LISTENER
 
     companion object {
         @JvmStatic
