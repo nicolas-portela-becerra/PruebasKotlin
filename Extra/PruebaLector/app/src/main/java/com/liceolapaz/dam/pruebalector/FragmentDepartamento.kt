@@ -1,29 +1,30 @@
 package com.liceolapaz.dam.pruebalector
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import androidx.viewbinding.ViewBindings
 import com.liceolapaz.dam.pruebalector.databinding.FragmentDepartamentoBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.concurrent.FutureTask
+import java.sql.SQLException
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 class FragmentDepartamento : Fragment() {
-    private lateinit var viewBinding : FragmentDepartamentoBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewBinding = FragmentDepartamentoBinding.inflate(layoutInflater)
 
-        arguments?.let {}
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -35,17 +36,31 @@ class FragmentDepartamento : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val id = resources.getIdentifier("btnEnviar", "id", context?.packageName)
-        val e = view.findViewById<View>(id)
+        val cod = view.findViewById<EditText>(resources.getIdentifier("fldCod", "id", context?.packageName))
+        val nom = view.findViewById<EditText>(resources.getIdentifier("fldNom", "id", context?.packageName))
+        val pais = view.findViewById<EditText>(resources.getIdentifier("fldPaisDep", "id", context?.packageName))
+        val progress = view.findViewById<ProgressBar>(resources.getIdentifier("progressbar", "id", context?.packageName))
+        val e = view.findViewById<View>(resources.getIdentifier("btnEnviar", "id", context?.packageName))
         e.setOnClickListener {
-            lifecycleScope.launch(Dispatchers.IO) {
-                val depart = Departamtento(viewBinding.fldCod.toString().toInt(), viewBinding.fldNom.toString(), viewBinding.fldPaisDep.toString())
-                if(Departamentos(depart).call() == 1) {
-                    Toast.makeText(context, "Departamento insertado", Toast.LENGTH_SHORT).show()
+            if(!cod.text.isEmpty() and !nom.text.isEmpty() and !pais.text.isEmpty()) {
+                progress.visibility = View.VISIBLE
+                lifecycleScope.launch(Dispatchers.IO) {
+                    val depart = Departamtento(
+                        cod.text.toString().toInt(),
+                        nom.text.toString(),
+                        pais.text.toString()
+                    )
+                    if (Departamentos(depart, requireContext()).call() == 1) {
+                        Toast.makeText(context, "Departamento insertado", Toast.LENGTH_SHORT).show()
+                    }
+                    withContext(Dispatchers.Main) {
+                        progress.visibility = View.GONE
+                    }
                 }
-                else {
-                    Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
-                }
+            }
+            else {
+                progress.visibility = View.GONE
+                Toast.makeText(context, "Los campos deben estar rellenados", Toast.LENGTH_SHORT).show()
             }
         }
     }
