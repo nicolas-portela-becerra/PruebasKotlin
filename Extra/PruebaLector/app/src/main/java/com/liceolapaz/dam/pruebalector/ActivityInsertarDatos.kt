@@ -24,6 +24,7 @@ class ActivityInsertarDatos : AppCompatActivity() {
     private var y1 : Float = 0F
     private var x2: Float = 0F
     private var y2: Float = 0F
+    //
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
