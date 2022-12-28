@@ -2,12 +2,17 @@ package com.liceolapaz.dam.pruebalector
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.MotionEvent
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.liceolapaz.dam.pruebalector.databinding.ActivityRecuperarDatosBinding
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ActivityRecuperarDatos : AppCompatActivity() {
     private lateinit var binding : ActivityRecuperarDatosBinding
@@ -15,6 +20,7 @@ class ActivityRecuperarDatos : AppCompatActivity() {
     private var y1 : Float = 0F
     private var x2: Float = 0F
     private var y2: Float = 0F
+    private lateinit var datos : ArrayList<Any>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,18 +29,26 @@ class ActivityRecuperarDatos : AppCompatActivity() {
 
         binding.btnResultados.setOnClickListener {
             lifecycleScope.launch {
-                binding.progressbar.visibility = View.VISIBLE
-                TODO("Arreglar esta funcion no se como")
-                /*binding.resultados = withContext(Dispatchers.IO) {
-                    val datos = LeerBd(binding.fldTablas.text.toString(), this@ActivityRecuperarDatos).call()
-                    if(binding.fldTablas.text.toString().equals("departamento", true)) {
-                        mostrarDepartamentos(datos)
+                if(binding.fldTablas.text.isEmpty()){
+                    Toast.makeText(this@ActivityRecuperarDatos, "Introduce un nombre para buscar", Toast.LENGTH_SHORT).show()
+                }
+                else {
+                    binding.progressbar.visibility = View.VISIBLE
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        datos = LeerBd(binding.fldTablas.text.toString(), this@ActivityRecuperarDatos).call()
+                        if(!datos.isEmpty()) {
+                            if(binding.fldTablas.text.toString().equals("departamento", true)) {
+                                mostrarDepartamentos(datos)
+                            }
+                            if(binding.fldTablas.text.toString().equals("empleado", true)) {
+                                mostrarEmpleados(datos)
+                            }
+                        }
+                        withContext(Dispatchers.Main) {
+                            binding.progressbar.visibility = View.GONE
+                        }
                     }
-                    else {
-                        mostrarEmpleados(datos)
-                    }
-                }*/
-                binding.progressbar.visibility = View.GONE
+                }
             }
         }
     }

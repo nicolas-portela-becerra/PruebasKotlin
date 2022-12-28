@@ -1,6 +1,8 @@
 package com.liceolapaz.dam.pruebalector
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.widget.Toast
 import java.util.concurrent.Callable
 import java.util.concurrent.FutureTask
@@ -10,7 +12,7 @@ class LeerBd(palabra: String, ctx : Context) {
     val ctx = ctx
 
     fun call(): ArrayList<Any> {
-        val conexion = BD().call()
+        val conexion = BD().call(ctx)
         var datos = arrayListOf<Any>()
         if((conexion) != null) {
             val ps = conexion.prepareStatement("SELECT * FROM " + palabra)
@@ -29,9 +31,12 @@ class LeerBd(palabra: String, ctx : Context) {
                 }
             }
         }
-        else {
-            Toast.makeText(ctx, "Error en la conexión", Toast.LENGTH_SHORT).show()
+        if(datos.isEmpty()) {
+            Handler(Looper.getMainLooper()).post {
+                Toast.makeText(ctx, "No hay datos que mostrar", Toast.LENGTH_SHORT).show()
+            }
         }
+
 
         return datos
     }
