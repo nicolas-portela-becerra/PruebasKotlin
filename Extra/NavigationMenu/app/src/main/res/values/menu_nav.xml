@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="Uno" type="string">Uno</item>
+    <item name="Dos" type="string">Dos</item>
+    <item name="Tres" type="string">Tres</item>
+</resources>
