@@ -45,11 +45,7 @@ class FragmentDepartamento : Fragment() {
             if(!cod.text.isEmpty() and !nom.text.isEmpty() and !pais.text.isEmpty()) {
                 progress.visibility = View.VISIBLE
                 lifecycleScope.launch(Dispatchers.IO) {
-                    val depart = Departamtento(
-                        cod.text.toString().toInt(),
-                        nom.text.toString(),
-                        pais.text.toString()
-                    )
+                    val depart = Departamtento(cod.text.toString().toInt(), nom.text.toString(), pais.text.toString())
                     if (Departamentos(depart, requireContext()).call() == 1) {
                         Toast.makeText(context, "Departamento insertado", Toast.LENGTH_SHORT).show()
                     }
