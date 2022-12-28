@@ -53,7 +53,9 @@ class FragmentEmpleado : Fragment() {
                     val emp = Empleado(cod.text.toString().toInt(), nom.text.toString(), apellidos.text.toString(), puesto.text.toString(), salario.text.toString().toInt(), codDep.text.toString().toInt())
                     val resultado = Empleados(emp, requireContext()).call()
                     if(resultado == 1) {
-                        Toast.makeText(context, "Empleado insertado", Toast.LENGTH_SHORT).show()
+                        Handler(Looper.getMainLooper()).post {
+                            Toast.makeText(context, "Empleado insertado", Toast.LENGTH_SHORT).show()
+                        }
                     }
                     withContext(Dispatchers.Main) {
                         progress.visibility = View.GONE
