@@ -23,7 +23,7 @@ class BD {
         }
         catch (e : SQLException) {
             Handler(Looper.getMainLooper()).post {
-                Toast.makeText(ctx, "Error en la conexción con la base de datos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(ctx, "Error en la conexión con la base de datos", Toast.LENGTH_SHORT).show()
             }
         }
         return null
