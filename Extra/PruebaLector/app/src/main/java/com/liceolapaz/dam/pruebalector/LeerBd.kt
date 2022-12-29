@@ -6,8 +6,6 @@ import android.os.Looper
 import android.widget.Toast
 import com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException
 import java.sql.ResultSet
-import java.util.concurrent.Callable
-import java.util.concurrent.FutureTask
 
 class LeerBd(palabra: String, ctx : Context) {
     private lateinit var resultados : ResultSet
@@ -30,8 +28,8 @@ class LeerBd(palabra: String, ctx : Context) {
                 }
                 if(palabra.equals("departamento", true)) {
                     while(resultados.next()){
-                        var departamtento = Departamtento(resultados.getInt(1), resultados.getString(2), resultados.getString(3))
-                        datos.add(departamtento as Any)
+                        var departamento = Departamento(resultados.getInt(1), resultados.getString(2), resultados.getString(3))
+                        datos.add(departamento as Any)
                     }
                 }
                 if(datos.isEmpty()) {

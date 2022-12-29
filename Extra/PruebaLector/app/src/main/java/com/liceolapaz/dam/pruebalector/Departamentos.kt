@@ -1,13 +1,8 @@
 package com.liceolapaz.dam.pruebalector
 
 import android.content.Context
-import android.widget.Toast
-import java.sql.Connection
-import java.sql.SQLException
-import java.util.concurrent.Callable
-import java.util.concurrent.FutureTask
 
-class Departamentos(depart : Departamtento, ctx : Context) {
+class Departamentos(depart : Departamento, ctx : Context) {
     val ctx = ctx
     val conexion = BD().call(ctx)
     val depart = depart

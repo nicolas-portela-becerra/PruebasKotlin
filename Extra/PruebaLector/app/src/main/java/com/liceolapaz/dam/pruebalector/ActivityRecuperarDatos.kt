@@ -2,8 +2,6 @@ package com.liceolapaz.dam.pruebalector
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -11,8 +9,9 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.navigation.NavigationView
-import com.liceolapaz.dam.pruebalector.databinding.ActivityRecuperarDatosBinding
 import com.liceolapaz.dam.pruebalector.databinding.ActivityRecuperarDatosNavBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -43,11 +42,8 @@ class ActivityRecuperarDatos : AppCompatActivity() {
                     lifecycleScope.launch(Dispatchers.IO) {
                         datos = LeerBd(binding.include.fldTablas.text.toString(), this@ActivityRecuperarDatos).call()
                         if(datos.isNotEmpty()) {
-                            if(binding.include.fldTablas.text.toString().equals("departamento", true)) {
-                                mostrarDepartamentos(datos)
-                            }
-                            if(binding.include.fldTablas.text.toString().equals("empleado", true)) {
-                                mostrarEmpleados(datos)
+                            withContext(Dispatchers.Main) {
+                                cargarReciclerView()
                             }
                         }
                         withContext(Dispatchers.Main) {
@@ -58,6 +54,43 @@ class ActivityRecuperarDatos : AppCompatActivity() {
             }
         }
     }
+
+    private fun cargarReciclerView() {
+        val manager = LinearLayoutManager(this)
+        val decorador = DividerItemDecoration(this, manager.orientation)
+        binding.include.datos.layoutManager = manager
+        binding.include.datos.addItemDecoration(decorador)
+
+        if(binding.include.fldTablas.text.toString().equals("departamento", true)) {
+            binding.include.datos.adapter = DatosAdapter(null, mapearDepartamentos(datos), binding.include.fldTablas.text.toString()) {registro -> onRegistroPulsado(registro)}
+        }
+        if(binding.include.fldTablas.text.toString().equals("empleado", true)) {
+            binding.include.datos.adapter = DatosAdapter(mapearEmpleados(datos), null, binding.include.fldTablas.text.toString()) {registro -> onRegistroPulsado(registro)}
+        }
+    }
+
+    private fun mapearEmpleados(datos: ArrayList<Any>): ArrayList<Empleado> {
+        var empleados = ArrayList<Empleado>()
+        for(dato in datos) {
+            val empleado = dato as Empleado
+            empleados.add(empleado)
+            Log.i("EMPLEADO", empleado.toString())
+        }
+        return empleados
+    }
+
+    private fun mapearDepartamentos(datos: ArrayList<Any>): ArrayList<Departamento> {
+        var departamentos = ArrayList<Departamento>()
+        for(dato in datos) {
+            departamentos.add(dato as Departamento)
+        }
+        return departamentos
+    }
+
+    private fun onRegistroPulsado(registro : Any) {
+
+    }
+
 
     private fun showNav() {
         val toggle = ActionBarDrawerToggle(this, binding.drawerLayout, binding.include.toolbar, R.string.open, R.string.close)
@@ -85,7 +118,7 @@ class ActivityRecuperarDatos : AppCompatActivity() {
             MotionEvent.ACTION_UP -> {
                 x2 = touchEvent.x
                 y2 = touchEvent.y
-                if ((x1 <= 40F) and (x2 <= 200F)) {
+                if ((x1 <= 75F) and (x2 <= 200F)) {
                     showNav()
                 }
             }
@@ -93,7 +126,7 @@ class ActivityRecuperarDatos : AppCompatActivity() {
         return false
     }
 
-    private fun mostrarEmpleados(datos: ArrayList<Any>?): String {
+    private fun recuperarEmpleados(datos: ArrayList<Any>?): String {
         var string  = ""
         if (datos != null) {
             for(o : Any in datos) {
@@ -104,11 +137,11 @@ class ActivityRecuperarDatos : AppCompatActivity() {
         return string
     }
 
-    private fun mostrarDepartamentos(datos: ArrayList<Any>?) : String {
+    private fun recuperarDepartamentos(datos: ArrayList<Any>?) : String {
         var string  = ""
         if (datos != null) {
             for(o : Any in datos) {
-                o as Departamtento
+                o as Departamento
                 string += o.toString() + "\n"
             }
         }

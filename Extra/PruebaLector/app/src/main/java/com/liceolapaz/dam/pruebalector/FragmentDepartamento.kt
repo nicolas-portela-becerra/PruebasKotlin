@@ -3,7 +3,6 @@ package com.liceolapaz.dam.pruebalector
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -47,7 +46,7 @@ class FragmentDepartamento : Fragment() {
             if(!cod.text.isEmpty() and !nom.text.isEmpty() and !pais.text.isEmpty()) {
                 progress.visibility = View.VISIBLE
                 lifecycleScope.launch(Dispatchers.IO) {
-                    val depart = Departamtento(cod.text.toString().toInt(), nom.text.toString(), pais.text.toString())
+                    val depart = Departamento(cod.text.toString().toInt(), nom.text.toString(), pais.text.toString())
                     if (Departamentos(depart, requireContext()).call() == 1) {
                         Handler(Looper.getMainLooper()).post {
                             Toast.makeText(context, "Departamento insertado", Toast.LENGTH_SHORT).show()
