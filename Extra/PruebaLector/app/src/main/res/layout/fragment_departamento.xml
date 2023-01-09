@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".FragmentDepartamento"
+    android:padding="5dp"
+    android:background="@color/purple_200">
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/txtCod"
+        android:text="Codigo: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingTop="15dp"/>
+
+    <EditText
+        android:id="@+id/fldCod"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_columnSpan="2"
+        android:hint="Código"
+        android:inputType="number"
+        app:layout_constraintStart_toEndOf="@id/txtCod"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/txtNom"
+        android:text="Nombre: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtCod"
+        android:paddingTop="30dp"/>
+
+    <EditText
+        android:id="@+id/fldNom"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_columnSpan="2"
+        android:hint="Nombre"
+        app:layout_constraintStart_toEndOf="@id/txtNom"
+        app:layout_constraintTop_toBottomOf="@id/fldCod" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtPaisDep"
+        android:text="País: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtNom"
+        android:paddingTop="25dp"/>
+
+    <EditText
+        android:id="@+id/fldPaisDep"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_columnSpan="2"
+        android:hint="País"
+        app:layout_constraintStart_toEndOf="@+id/txtPaisDep"
+        app:layout_constraintTop_toBottomOf="@id/fldNom" />
+
+    <Button
+        android:id="@+id/btnEnviar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enviar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtPaisDep" />
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/btnEnviar"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
