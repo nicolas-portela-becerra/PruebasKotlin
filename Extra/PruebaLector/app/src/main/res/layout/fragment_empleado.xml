@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".FragmentEmpleado"
+    android:background="@color/purple_200">
+
+    <TextView
+        android:id="@+id/txtCod"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Codigo:"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:paddingTop="10dp"/>
+    <EditText
+        android:id="@+id/fldCod"
+        android:hint="Código"
+        android:layout_columnSpan="2"
+        android:inputType="number"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/txtCod"
+        />
+
+    <TextView
+        android:id="@+id/txtNom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nombre:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtCod"
+        android:paddingTop="30dp"/>
+    <EditText
+        android:id="@+id/fldNom"
+        android:hint="Nombre"
+        android:layout_columnSpan="2"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/txtNom"
+        app:layout_constraintTop_toBottomOf="@id/fldCod"/>
+
+    <TextView
+        android:id="@+id/txtApellidos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Apellidos:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtNom"
+        android:paddingTop="20dp"/>
+    <EditText
+        android:id="@+id/fldApellidos"
+        android:hint="Apellidos"
+        android:layout_columnSpan="2"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/txtApellidos"
+        app:layout_constraintTop_toBottomOf="@id/fldNom"/>
+
+    <TextView
+        android:id="@+id/txtPuesto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Puesto:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtApellidos"
+        android:paddingTop="30dp"/>
+    <EditText
+        android:id="@+id/fldPuesto"
+        android:hint="Puesto"
+        android:layout_columnSpan="2"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/txtPuesto"
+        app:layout_constraintTop_toBottomOf="@id/fldApellidos"/>
+
+    <TextView
+        android:id="@+id/txtSalario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Salario:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtPuesto"
+        android:paddingTop="25dp"/>
+    <EditText
+        android:id="@+id/fldSalario"
+        android:hint="Salario"
+        android:layout_columnSpan="2"
+        android:inputType="number"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/txtSalario"
+        app:layout_constraintTop_toBottomOf="@id/fldPuesto"/>
+
+    <TextView
+        android:id="@+id/txtCodDep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cod departamento:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtSalario"
+        android:paddingTop="25dp"/>
+    <EditText
+        android:id="@+id/fldCodDep"
+        android:hint="CodDep"
+        android:layout_columnSpan="2"
+        android:inputType="number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/txtCodDep"
+        app:layout_constraintTop_toBottomOf="@id/fldSalario"/>
+
+    <Button
+        android:id="@+id/btnEnviar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enviar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtCodDep" />
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/btnEnviar"
+        app:layout_constraintStart_toStartOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

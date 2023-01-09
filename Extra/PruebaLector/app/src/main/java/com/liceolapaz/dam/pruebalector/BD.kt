@@ -1,21 +1,25 @@
 package com.liceolapaz.dam.pruebalector
 
+import android.content.Context
+import android.os.Handler
+import android.os.Looper
+import android.widget.Toast
 import java.sql.Connection
 import java.sql.DriverManager
-import java.util.concurrent.Callable
+import java.sql.SQLException
 
 
-class BD : Callable<Connection> {
-
-    override fun call(): Connection {
+class BD {
+    fun call(ctx : Context): Connection? {
+        val ctx = ctx
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver")
+            return DriverManager.getConnection("jdbc:mysql://192.168.1.176/practicaev1", "nico", "1234")
         }
-        catch (e : ClassNotFoundException) {
-            e.printStackTrace()
+        catch (e : SQLException) {
+            Handler(Looper.getMainLooper()).post {
+                Toast.makeText(ctx, "Error en la conexión con la base de datos", Toast.LENGTH_SHORT).show()
+            }
         }
-
-        return DriverManager.getConnection("jdbc:mysql://192.168.1.176/dam22", "nico", "1234")
-
+        return null
     }
 }
