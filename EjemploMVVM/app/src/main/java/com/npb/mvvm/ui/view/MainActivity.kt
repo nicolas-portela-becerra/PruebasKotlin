@@ -1,11 +1,12 @@
-package com.npb.mvvm.view
+package com.npb.mvvm.ui.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import com.npb.mvvm.databinding.ActivityMainBinding
-import com.npb.mvvm.viewmodel.QuoteViewModel
+import com.npb.mvvm.ui.viewmodel.QuoteViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -17,9 +18,15 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        quoteViewModel.onCreate()
+
         quoteViewModel.quoteModelList.observe(this, Observer { currentQuote ->
             binding.txtQuote.text = currentQuote.quote
             binding.txtAuthor.text = currentQuote.author
+        })
+
+        quoteViewModel.isLoading.observe(this, Observer { boolean ->
+            binding.progress.isVisible = boolean
         })
 
         binding.viewContainer.setOnClickListener {
