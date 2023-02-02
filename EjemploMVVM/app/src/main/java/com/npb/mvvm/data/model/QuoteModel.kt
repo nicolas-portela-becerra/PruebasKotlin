@@ -1,4 +1,4 @@
-package com.npb.mvvm.model
+package com.npb.mvvm.data.model
 
 data class QuoteModel(
     val quote : String,
