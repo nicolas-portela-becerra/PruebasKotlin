@@ -1,8 +1,7 @@
-package com.example.pruebaroom
+package com.npb.pruebaroom
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.pruebaroom.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

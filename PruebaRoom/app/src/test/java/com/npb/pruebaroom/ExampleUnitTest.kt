@@ -1,4 +1,4 @@
-package com.example.pruebaroom
+package com.npb.pruebaroom
 
 import org.junit.Test
 
