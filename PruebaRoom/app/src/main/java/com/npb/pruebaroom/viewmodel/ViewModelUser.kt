@@ -1,12 +1,13 @@
-package com.npb.pruebaroom.database
+package com.npb.pruebaroom.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import com.npb.pruebaroom.data.User
+import com.npb.pruebaroom.core.DatabaseUser
+import com.npb.pruebaroom.repository.Repository
+import com.npb.pruebaroom.model.User
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 class ViewModelUser(application: Application) : AndroidViewModel(application) {

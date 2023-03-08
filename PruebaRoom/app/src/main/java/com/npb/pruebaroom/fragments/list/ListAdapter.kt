@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.npb.pruebaroom.R
-import com.npb.pruebaroom.data.User
+import com.npb.pruebaroom.model.User
 
 class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
     private var userList = emptyList<User>()

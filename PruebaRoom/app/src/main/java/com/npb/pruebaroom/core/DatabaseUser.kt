@@ -1,11 +1,11 @@
-package com.npb.pruebaroom.database
+package com.npb.pruebaroom.core
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.npb.pruebaroom.data.User
-import com.npb.pruebaroom.data.UserDao
+import com.npb.pruebaroom.model.User
+import com.npb.pruebaroom.model.UserDao
 
 @Database(entities = [User::class], version = 1, exportSchema = false)
 abstract class DatabaseUser : RoomDatabase() {

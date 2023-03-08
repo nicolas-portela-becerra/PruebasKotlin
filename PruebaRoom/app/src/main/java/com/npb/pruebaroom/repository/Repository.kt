@@ -1,8 +1,8 @@
-package com.npb.pruebaroom.database
+package com.npb.pruebaroom.repository
 
 import androidx.lifecycle.LiveData
-import com.npb.pruebaroom.data.User
-import com.npb.pruebaroom.data.UserDao
+import com.npb.pruebaroom.model.User
+import com.npb.pruebaroom.model.UserDao
 
 class Repository(private val userDao : UserDao) {
     val readAllData : LiveData<List<User>> = userDao.readAllData()

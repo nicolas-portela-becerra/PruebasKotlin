@@ -12,8 +12,8 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.npb.pruebaroom.R
-import com.npb.pruebaroom.data.User
-import com.npb.pruebaroom.database.ViewModelUser
+import com.npb.pruebaroom.model.User
+import com.npb.pruebaroom.viewmodel.ViewModelUser
 
 class AddFragment : Fragment() {
     private lateinit var userViewModel : ViewModelUser

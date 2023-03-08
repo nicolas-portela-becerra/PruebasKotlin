@@ -1,4 +1,4 @@
-package com.npb.pruebaroom.data
+package com.npb.pruebaroom.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
