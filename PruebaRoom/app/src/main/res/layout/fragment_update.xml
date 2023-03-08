@@ -1,13 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.update.UpdateFragment">
 
-    <TextView
+    <EditText
+        android:id="@+id/etUpdateNombre"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:hint="Introduce tu nombre"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        />
+    <EditText
+        android:id="@+id/etUpdateApellido"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Introduce tu apellido"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/etUpdateNombre"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        />
+    <EditText
+        android:id="@+id/etUpdateEdad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Introduce tu edad"
+        android:layout_marginTop="15dp"
+        android:inputType="number"
+        app:layout_constraintTop_toBottomOf="@+id/etUpdateApellido"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        />
+    <Button
+        android:id="@+id/btnGuardar"
+        android:text="Actualizar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/etUpdateEdad"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        />
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.npb.pruebaroom.R
 import com.npb.pruebaroom.model.User
@@ -28,6 +29,10 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
         holder.itemView.findViewById<TextView>(R.id.tvNombre).text = currentItem.firstName
         holder.itemView.findViewById<TextView>(R.id.tvApellido).text = currentItem.lastName
         holder.itemView.findViewById<TextView>(R.id.tvEdad).text = currentItem.age.toString()
+
+        holder.itemView.findViewById<ConstraintLayout>(R.id.cellLayout).setOnClickListener {
+            
+        }
     }
 
     fun setData(user : List<User>) {
