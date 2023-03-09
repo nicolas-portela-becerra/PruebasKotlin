@@ -5,6 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.npb.pruebaroom.R
 import com.npb.pruebaroom.model.User
@@ -30,8 +32,13 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
         holder.itemView.findViewById<TextView>(R.id.tvApellido).text = currentItem.lastName
         holder.itemView.findViewById<TextView>(R.id.tvEdad).text = currentItem.age.toString()
 
-        holder.itemView.findViewById<ConstraintLayout>(R.id.cellLayout).setOnClickListener {
-            
+        val cellView =  holder.itemView.findViewById<ConstraintLayout>(R.id.cellLayout)
+       cellView.setOnClickListener {
+           cellView.setOnClickListener {
+               val action = ListFragmentDirections.actionListFragmentToUpdateFragment(currentItem)
+               holder.itemView.findNavController().navigate(action)
+           }
+
         }
     }
 
