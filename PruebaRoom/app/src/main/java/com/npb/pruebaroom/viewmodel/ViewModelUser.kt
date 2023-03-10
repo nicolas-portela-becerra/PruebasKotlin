@@ -13,16 +13,19 @@ import kotlinx.coroutines.launch
 class ViewModelUser(application: Application) : AndroidViewModel(application) {
     val readAllData : LiveData<List<User>>
     private val repository : Repository
-
     init {
         val userDao = DatabaseUser.getDatabse(application).userDao()
         repository = Repository(userDao)
         readAllData = repository.readAllData
     }
-
     fun addUser(user : User) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.addUser(user)
+        }
+    }
+    fun updateUser(user : User) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateUser(user)
         }
     }
 }
