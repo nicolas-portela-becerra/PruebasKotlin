@@ -1,12 +1,13 @@
 package com.npb.pruebaroom.fragments.update
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -24,6 +25,7 @@ class UpdateFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        val menu: MenuHost = requireActivity()
         val updateBinding = FragmentUpdateBinding.bind(inflater.inflate(R.layout.fragment_update, container, false))
 
         mUserViewModel = ViewModelProvider(this).get(ViewModelUser::class.java)
@@ -36,7 +38,32 @@ class UpdateFragment : Fragment() {
             updateItem(updateBinding)
         }
 
+        menu.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.delete_menu, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem) : Boolean {
+                if(menuItem.itemId == R.id.menuDelete) {
+                    deleteUser()
+                }
+                return false
+            }
+        })
+
         return updateBinding.root
+    }
+    private fun deleteUser() {
+        val builder = AlertDialog.Builder(context)
+        builder.setPositiveButton("Si") {_, _ ->
+            mUserViewModel.deleteUser(args.currentUser)
+            Toast.makeText(context, "Usuario ${args.currentUser.firstName} eliminado", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_updateFragment_to_listFragment)
+        }
+        builder.setNegativeButton("No") {_, _ -> }
+        builder.setTitle("Borrar ${args.currentUser.firstName}?")
+        builder.setMessage("Estas seguro de que quieres borrar a ${args.currentUser.firstName}")
+        builder.create().show()
     }
     private fun updateItem(updateBinding : FragmentUpdateBinding) {
         val name = updateBinding.etUpdateNombre.text.toString()
