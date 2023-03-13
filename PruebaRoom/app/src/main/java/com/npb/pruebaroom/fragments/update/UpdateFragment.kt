@@ -40,6 +40,7 @@ class UpdateFragment : Fragment() {
 
         menu.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menu.clear()
                 menuInflater.inflate(R.menu.delete_menu, menu)
             }
 
@@ -50,7 +51,7 @@ class UpdateFragment : Fragment() {
                 return false
             }
         })
-
+        
         return updateBinding.root
     }
     private fun deleteUser() {

@@ -7,6 +7,13 @@
     tools:context=".fragments.list.ListFragment"
     android:id="@+id/cellLayout">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarLista"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"

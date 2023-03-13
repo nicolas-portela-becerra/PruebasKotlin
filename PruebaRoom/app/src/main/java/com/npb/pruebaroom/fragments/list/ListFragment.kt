@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.npb.pruebaroom.R
+import com.npb.pruebaroom.databinding.FragmentListBinding
+import com.npb.pruebaroom.databinding.FragmentUpdateBinding
 import com.npb.pruebaroom.viewmodel.ViewModelUser
 
 class ListFragment : Fragment() {
@@ -25,11 +27,11 @@ class ListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view =  inflater.inflate(R.layout.fragment_list, container, false)
+        val listBinding = FragmentListBinding.bind(inflater.inflate(R.layout.fragment_list, container, false))
 
         //RECYCLERVIEW
         val adapter = ListAdapter()
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
+        val recyclerView = listBinding.recyclerView
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
 
@@ -38,14 +40,15 @@ class ListFragment : Fragment() {
         mUserViewModel.readAllData.observe(viewLifecycleOwner, Observer { user ->
             adapter.setData(user)
         })
-        view.findViewById<FloatingActionButton>(R.id.floatingActionButton).setOnClickListener {
+        listBinding.floatingActionButton.setOnClickListener {
             findNavController().navigate(R.id.action_listFragment_to_addFragment)
         }
 
         //Tipico menu de arriba a la derecha
-        var menu: MenuHost = requireActivity()
+        val menu: MenuHost = requireActivity()
         menu.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menu.clear()
                 menuInflater.inflate(R.menu.delete_menu, menu)
             }
 
@@ -56,8 +59,18 @@ class ListFragment : Fragment() {
                 return false
             }
         })
-
-        return view;
+        /*listBinding.toolbarLista.menu.clear()
+        listBinding.toolbarLista.inflateMenu(R.menu.delete_menu)
+        listBinding.toolbarLista.setOnMenuItemClickListener { item ->
+            when(item.itemId) {
+                R.id.menuDelete -> {
+                    deleteAllUsers()
+                    true
+                }
+                else -> false
+            }
+        }*/
+        return listBinding.root;
     }
 
     private fun deleteAllUsers() {
