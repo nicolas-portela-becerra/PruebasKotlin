@@ -1,17 +1,18 @@
 package com.npb.pruebaroom.fragments.update
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.*
-import androidx.fragment.app.Fragment
 import android.widget.Toast
+import android.widget.Toolbar
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.room.Update
 import com.npb.pruebaroom.R
 import com.npb.pruebaroom.databinding.FragmentUpdateBinding
 import com.npb.pruebaroom.model.User
@@ -21,11 +22,11 @@ class UpdateFragment : Fragment() {
     private lateinit var mUserViewModel : ViewModelUser
 
     private val args by navArgs<UpdateFragmentArgs>()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val menu: MenuHost = requireActivity()
         val updateBinding = FragmentUpdateBinding.bind(inflater.inflate(R.layout.fragment_update, container, false))
 
         mUserViewModel = ViewModelProvider(this).get(ViewModelUser::class.java)
@@ -37,23 +38,23 @@ class UpdateFragment : Fragment() {
         updateBinding.btnGuardar.setOnClickListener {
             updateItem(updateBinding)
         }
-
-        menu.addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menu.clear()
-                menuInflater.inflate(R.menu.delete_menu, menu)
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem) : Boolean {
-                if(menuItem.itemId == R.id.menuDelete) {
-                    deleteUser()
-                }
-                return false
-            }
-        })
+        //TOOLBAR
+        setHasOptionsMenu(true)
         
         return updateBinding.root
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.delete_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == R.id.menuDelete) {
+            deleteUser()
+        }
+        return super.onContextItemSelected(item)
+    }
+
     private fun deleteUser() {
         val builder = AlertDialog.Builder(context)
         builder.setPositiveButton("Si") {_, _ ->
@@ -64,7 +65,8 @@ class UpdateFragment : Fragment() {
         builder.setNegativeButton("No") {_, _ -> }
         builder.setTitle("Borrar ${args.currentUser.firstName}?")
         builder.setMessage("Estas seguro de que quieres borrar a ${args.currentUser.firstName}")
-        builder.create().show()
+        builder.create()
+        builder.show()
     }
     private fun updateItem(updateBinding : FragmentUpdateBinding) {
         val name = updateBinding.etUpdateNombre.text.toString()

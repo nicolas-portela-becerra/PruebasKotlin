@@ -45,10 +45,11 @@ class ListFragment : Fragment() {
         }
 
         //Tipico menu de arriba a la derecha
-        val menu: MenuHost = requireActivity()
+        /*val menu: MenuHost = requireActivity()
         menu.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menu.clear()
+                requireActivity().supportInvalidateOptionsMenu()
+                //menu.clear()
                 menuInflater.inflate(R.menu.delete_menu, menu)
             }
 
@@ -58,31 +59,21 @@ class ListFragment : Fragment() {
                 }
                 return false
             }
-        })
-        /*listBinding.toolbarLista.menu.clear()
-        listBinding.toolbarLista.inflateMenu(R.menu.delete_menu)
-        listBinding.toolbarLista.setOnMenuItemClickListener { item ->
-            when(item.itemId) {
-                R.id.menuDelete -> {
-                    deleteAllUsers()
-                    true
-                }
-                else -> false
-            }
-        }*/
+        })*/
+
         return listBinding.root;
     }
 
     private fun deleteAllUsers() {
-        val builder = AlertDialog.Builder(context)
+        val builder = AlertDialog.Builder(this.requireContext().applicationContext)
         builder.setPositiveButton("Si") {_, _ ->
             mUserViewModel.deleteAllUsers()
             Toast.makeText(context, "Usuarios eliminados", Toast.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.action_updateFragment_to_listFragment)
         }
         builder.setNegativeButton("No") {_, _ -> }
         builder.setTitle("Borrar todos los usuarios?")
         builder.setMessage("Estas seguro de que quieres borrar todos los usuarios?")
-        builder.create().show()
+        builder.create()
+        builder.show()
     }
 }
